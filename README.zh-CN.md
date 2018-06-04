@@ -1,10 +1,20 @@
 # platform2
 
-for school
+网站后台基础版
 
 ## 快速入门
 
-<!-- 在此次添加使用文档 -->
+利用了egg.js 作为框架
+
+添加了config 提供数据库资料
+添加了server 层用于
+添加了middleware 用于认证
+
+/app/controller/v1/users/ 作为样例
+
+使用前请修改conifg中的 database 和 key 信息，
+
+目前仅支持mysql
 
 如需进一步了解，参见 [egg 文档][egg]。
 
