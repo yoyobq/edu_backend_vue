@@ -17,8 +17,8 @@ class UsersController extends Controller {
   async show() {
     const ctx = this.ctx;
     const userId = ctx.params.id;
-    const users = await ctx.service.users.show(userId);
-    ctx.body = users;
+    const user = await ctx.service.users.show(userId);
+    ctx.body = user;
     ctx.status = 200;
   }
 

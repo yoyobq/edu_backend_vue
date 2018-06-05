@@ -11,13 +11,13 @@ class UsersService extends Service {
   async show(uid) {
     // 根据用户 id 从数据库获取用户详细信息
     const user = await this.app.mysql.get('user', { id: uid });
-    return { user };
+    return user;
   }
 
   async index() {
     // 查询user表中所有记录
     const users = await this.app.mysql.select('user');
-    return { users };
+    return users;
   }
 }
 
