@@ -5,7 +5,7 @@
 const Service = require('egg').Service;
 const TableName = 'pf2_authentications';
 
-class authenticationsService extends Service {
+class AuthenticationsService extends Service {
   async show(uid) {
     // 根据用户 id 从数据库获取用户详细信息
     const user = await this.app.mysql.get(TableName, { acc_Id: uid });
@@ -37,4 +37,4 @@ class authenticationsService extends Service {
   }
 }
 
-module.exports = authenticationsService;
+module.exports = AuthenticationsService;
