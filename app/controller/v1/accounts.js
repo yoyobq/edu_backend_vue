@@ -1,41 +1,43 @@
-// app/controller/accounts.js
+// app/v1/controller/accounts.js
 'use strict';
 
 const Controller = require('egg').Controller;
 
 class AccountsController extends Controller {
-//   async info() {
-//     const ctx = this.ctx;
-//     const userId = ctx.params.id;
-//     const user = await ctx.service.user.find(userId);
-//     // const user = await ctx.service.user.find();
-//     ctx.body = user;
-//   }
-// }
-// module.exports = UserController;
+
   async show() {
     const ctx = this.ctx;
-    const userId = ctx.params.id;
-    const user = await ctx.service.accounts.show(userId);
-    if (user !== null) {
-      ctx.body = user;
+    const id = ctx.params.id;
+    const result = await ctx.service.v1.accounts.show(id);
+    if (result !== null) {
+      ctx.body = result;
       ctx.status = 200;
     } else {
+      ctx.body = {
+        error: 'NOT FOUND',
+        detail: { message: '用户不存在或密码有误', field: '', code: '' },
+      };
       ctx.status = 404;
     }
   }
 
-  async index() {
+  async update() {
     const ctx = this.ctx;
-    // console.log(this.ctx.request);
-    const users = await ctx.service.accounts.index();
-    if (users !== null) {
-      console.log(users);
-      ctx.body = users;
-      ctx.status = 200;
-    } else {
-      ctx.status = 404;
-      ctx.body = '未找到该用户或密码不匹配';
+    let timeStr = (new Date()).toLocaleString();
+    // 获取当前日期
+    timeStr = timeStr.replace(/\//g, '-');
+    // 替换2017/05/03 为    2017-05-03
+
+    const row = {
+      id: ctx.params.id,
+      lastLoginTime: timeStr,
+      lastLoginIP: ctx.request.header['x-forwarded-for'],
+    };
+
+    const result = await ctx.service.v1.accounts.update(row);
+
+    if (result.affectedRows) {
+      ctx.status = 204;
     }
   }
 }
