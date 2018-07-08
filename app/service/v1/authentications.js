@@ -13,6 +13,7 @@ class AuthenticationsService extends Service {
   }
   async index(params) {
     let result;
+    // console.log(params);
     if (params !== {}) {
       // 此处照理说应当检测mysql服务的处理进程，若有问题及时报错，但是
       // 一、此类错误只会是由于后台编码设计时的失误造成，无需报给前台
@@ -33,6 +34,12 @@ class AuthenticationsService extends Service {
     // 1 null 这种情况让controller去处理
     // 2 [{} {} {}],这是最符合期待的结果，index函数展示大量数据
     // 3 [{}]，只取到一个符合条件的数据，此时记得引用的时候要加下标
+    return result;
+  }
+
+  async create(params) {
+    // console.log(params);
+    const result = await this.app.mysql.insert(TableName, params);
     return result;
   }
 }

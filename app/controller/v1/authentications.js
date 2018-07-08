@@ -3,6 +3,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const UUID = require('node-uuid');
 
 class AuthenticationsController extends Controller {
 
@@ -36,6 +37,47 @@ class AuthenticationsController extends Controller {
         detail: { message: '用户不存在或密码有误', field: '', code: '' },
       };
       ctx.status = 404;
+    }
+  }
+
+  async create() {
+    const ctx = this.ctx;
+    const params = {
+      uuid: UUID.v1(),
+      username: ctx.query.username,
+      password: ctx.query.password,
+    };
+    // 表authentications内添加数据
+    const result = await ctx.service.v1.authentications.create(params);
+    if (result.affectedRows) {
+      // console.log(result.insertId);
+      const newAccount = {
+        id: result.insertId,
+        avatarPath: 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg',
+      };
+      // 注意，换表了 表accounts
+      const result2 = await ctx.service.v1.accounts.create(newAccount);
+      if (result2.affectedRows) {
+        const newInfo = {
+          id: result2.insertId,
+        };
+        const result3 = await ctx.service.v1.informations.create(newInfo);
+        if (result3.affectedRows) {
+          console.log(result3);
+          ctx.body = result3;
+          ctx.status = 201;
+        } else {
+          ctx.status = 500;
+        }
+      } else {
+        ctx.status = 500;
+      }
+    } else {
+      ctx.body = {
+        error: 'CREATE FAILURE',
+        detail: { message: '服务器内部错误' },
+      };
+      ctx.status = 500;
     }
   }
 }

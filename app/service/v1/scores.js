@@ -1,11 +1,11 @@
-// app/service/v1/examRecords.js
+// app/service/v1/scores.js
 
 'use strict';
 
 const Service = require('egg').Service;
 const TableName = 'pf2_exam_records';
 
-class ExamRecordsService extends Service {
+class ScoresService extends Service {
   async show(uid) {
     // 根据用户 id 从数据库获取用户详细信息
     const user = await this.app.mysql.get(TableName, { acc_Id: uid });
@@ -22,14 +22,6 @@ class ExamRecordsService extends Service {
     }
     return result;
   }
-  async create(params) {
-    // examId: '6', id: '1', gid: '6', num: '100', score: '1',
-    const sqlStr = 'INSERT INTO `pf2_exam_records`(`que_Id`,`queG_Id`,`exam_Id`,`exam_RealAnswer`,`id`) SELECT `quest_Id`,`queG_Id`, ?,`quest_Answer`,? FROM `pf2_questions` WHERE queG_id = ? AND queS_id > 0 ORDER BY RAND() LIMIT ?';
-    // 注意数据类型造成的错误
-    // console.log(typeof params.num);
-    const result = await this.app.mysql.query(sqlStr, [ params.examId, params.id, params.gid, parseInt(params.num) ]);
-    return result;
-  }
 
   async update(params) {
     const row = {
@@ -44,6 +36,13 @@ class ExamRecordsService extends Service {
     const result = await this.app.mysql.update(TableName, row, options);
     return result;
   }
+
+  async wrong(params) {
+    // console.log(params);
+    const result = await this.app.mysql.query('SELECT COUNT(record_id) AS `wrong` FROM `pf2_exam_records` WHERE `exam_Id` = ? AND `id` = ?  AND `exam_StuAnswer` != `exam_RealAnswer`', [ params.exam_Id, params.id ]);
+    // console.log(wrongNum[0].wrongNum);
+    return result;
+  }
 }
 
-module.exports = ExamRecordsService;
+module.exports = ScoresService;
