@@ -9,16 +9,20 @@ class InformationsService extends Service {
     const result = await this.app.mysql.get(TableName, { id });
     return result;
   }
-  async index() {
-    const params = this.ctx.request.query;
-    let informations;
-    if (params.password !== undefined) {
+  async index(params) {
+    let users;
+    // console.log(params);
+    if (params !== undefined) {
       // console.log(params);
-      informations = await this.app.mysql.get(TableName, { acc_Name: params.username, acc_PassWord: params.password });
+      users = await this.app.mysql.select(TableName, {
+        where: params,
+      });
+      // console.log(modules);
     } else {
-      informations = await this.app.mysql.select(TableName);
+      users = await this.app.mysql.select(TableName);
     }
-    return informations;
+    return users;
+
   }
 
   async update(row) {

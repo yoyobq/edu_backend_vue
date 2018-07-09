@@ -9,15 +9,25 @@ class AccountsService extends Service {
     const result = await this.app.mysql.get(TableName, { id });
     return result;
   }
-  async index() {
+  async index(params) {
     // 查询user表中所有记录
-    const params = this.ctx.request.query;
+    // const params = this.ctx.request.query;
+
     let accounts;
     if (params.password !== undefined) {
       // console.log(params);
       accounts = await this.app.mysql.get(TableName, { acc_Name: params.username, acc_PassWord: params.password });
     } else {
-      accounts = await this.app.mysql.select(TableName);
+      // accounts = await this.app.mysql.select(TableName);
+      if (params !== undefined) {
+        // console.log(params);
+        accounts = await this.app.mysql.select(TableName, {
+          where: params,
+        });
+        // console.log(modules);
+      } else {
+        accounts = await this.app.mysql.select(TableName);
+      }
     }
     return accounts;
   }
