@@ -6,9 +6,10 @@ const Service = require('egg').Service;
 const TableName = 'pf2_authentications';
 
 class AuthenticationsService extends Service {
-  async show(uid) {
+  async show(row) {
     // 根据用户 id 从数据库获取用户详细信息
-    const user = await this.app.mysql.get(TableName, { acc_Id: uid });
+    console.log(row);
+    const user = await this.app.mysql.get(TableName, row);
     return user;
   }
   async index(params) {
@@ -40,6 +41,16 @@ class AuthenticationsService extends Service {
   async create(params) {
     // console.log(params);
     const result = await this.app.mysql.insert(TableName, params);
+    return result;
+  }
+
+  async update(row) {
+    const result = await this.app.mysql.update(TableName, row);
+    return result;
+  }
+
+  async destroy(params) {
+    const result = await this.app.mysql.delete(TableName, params);
     return result;
   }
 }

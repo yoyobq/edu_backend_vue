@@ -19,10 +19,10 @@ class PasswordController extends Controller {
 
   async index() {
     const ctx = this.ctx;
-    console.log(ctx);
+    // console.log(ctx);
     const users = await ctx.service.v1.password.index();
     if (users !== null) {
-      console.log(users);
+      // console.log(users);
       ctx.body = users;
       ctx.status = 200;
     } else {

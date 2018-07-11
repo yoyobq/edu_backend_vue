@@ -42,6 +42,11 @@ class AccountsService extends Service {
     const result = await this.app.mysql.insert(TableName, params);
     return result;
   }
+
+  async destroy(params) {
+    const result = await this.app.mysql.delete(TableName, params);
+    return result;
+  }
 }
 
 module.exports = AccountsService;

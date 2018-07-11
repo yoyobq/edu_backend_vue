@@ -9,14 +9,18 @@ class AuthenticationsController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    const userId = ctx.params.id;
-    const user = await ctx.service.authentications.v1.show(userId);
-    if (user !== null) {
-      ctx.body = user;
-      ctx.status = 200;
-    } else {
-      ctx.status = 404;
-    }
+    // const userId = ctx.params.id;
+    // console.log(typeof ctx.query);
+    const row = ctx.query;
+    const user = await ctx.service.v1.authentications.show(row);
+    // if (user !== null) {
+    //   ctx.body = user;
+    //   ctx.status = 200;
+    // } else {
+    //   ctx.status = 404;
+    // }
+    ctx.body = user;
+    ctx.status = 200;
   }
 
   async index() {
@@ -63,7 +67,7 @@ class AuthenticationsController extends Controller {
         };
         const result3 = await ctx.service.v1.informations.create(newInfo);
         if (result3.affectedRows) {
-          console.log(result3);
+          // console.log(result3);
           ctx.body = result3;
           ctx.status = 201;
         } else {
@@ -78,6 +82,44 @@ class AuthenticationsController extends Controller {
         detail: { message: '服务器内部错误' },
       };
       ctx.status = 500;
+    }
+  }
+
+  async update() {
+    const ctx = this.ctx;
+    const row = JSON.parse(ctx.query.params);
+    // console.log(row.password);
+    const result = await ctx.service.v1.authentications.update(row);
+
+    if (result.affectedRows) {
+      ctx.status = 204;
+    }
+  }
+
+  async destroy() {
+    const ctx = this.ctx;
+    // console.log(ctx);
+    const params = {
+      id: parseInt(ctx.params.id),
+    };
+    const resultAuth = await ctx.service.v1.authentications.destroy(params);
+    if (resultAuth.affectedRows) {
+      const resultAcc = await ctx.service.v1.accounts.destroy(params);
+      if (resultAcc.affectedRows) {
+        const resultInfo = await ctx.service.v1.informations.destroy(params);
+        if (resultInfo.affectedRows) {
+          ctx.body = null;
+          ctx.status = 201;
+        }
+      }
+    } else {
+      ctx.body = {
+        error: 'NOT IMPLEMENTED',
+        // 在egg官方文档里，detail给了个对象数组[{  }]，个人认为不存在数组的必要
+        // 因此把他简化成了一个对象 {}
+        detail: { message: '删除帐号', field: '', code: '' },
+      };
+      ctx.status = 501;
     }
   }
 }
