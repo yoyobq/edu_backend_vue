@@ -21,7 +21,15 @@ class ModuleApplyRecordsController extends Controller {
   }
   async index() {
     const ctx = this.ctx;
+    // console.log(ctx.query);
     const params = ctx.query;
+    if (params.modId !== undefined) {
+      params.modId = parseInt(params.modId);
+    }
+    if (params.status !== undefined) {
+      params.status = params.status.split(',');
+    }
+    // console.log(params);
     const result = await ctx.service.v1.moduleApplyRecords.index(params);
     // console.log(result[0] !== undefined);
     // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined
@@ -89,8 +97,20 @@ class ModuleApplyRecordsController extends Controller {
 
   async destroy() {
     const ctx = this.ctx;
-    const params = ctx.params;
-    const result = await ctx.service.v1.moduleApplyRecords.destroy(params);
+    const params = JSON.parse(ctx.query.params);
+    console.log(params);
+    let row = {};
+    if (params.id !== undefined) {
+      row = {
+        id: parseInt(params.id),
+      };
+    } else if (params.uId !== undefined) {
+      row = {
+        uId: parseInt(params.uId),
+      };
+    }
+    console.log(row);
+    const result = await ctx.service.v1.moduleApplyRecords.destroy(row);
     if (result.affectedRows) {
       ctx.body = null;
       ctx.status = 201;
