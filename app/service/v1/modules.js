@@ -33,6 +33,12 @@ class ModulesService extends Service {
     const result = await this.app.mysql.insert(TableName, params);
     return result;
   }
+
+  async destroy(params) {
+    // console.log(params);
+    const result = await this.app.mysql.delete(TableName, params);
+    return result;
+  }
 }
 
 module.exports = ModulesService;

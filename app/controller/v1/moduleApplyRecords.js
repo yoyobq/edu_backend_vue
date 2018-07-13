@@ -98,7 +98,7 @@ class ModuleApplyRecordsController extends Controller {
   async destroy() {
     const ctx = this.ctx;
     const params = JSON.parse(ctx.query.params);
-    console.log(params);
+    // console.log(params);
     let row = {};
     if (params.id !== undefined) {
       row = {
@@ -108,8 +108,12 @@ class ModuleApplyRecordsController extends Controller {
       row = {
         uId: parseInt(params.uId),
       };
+    } else if (params.modId !== undefined) {
+      row = {
+        modId: parseInt(params.modId),
+      };
     }
-    console.log(row);
+    // console.log(row);
     const result = await ctx.service.v1.moduleApplyRecords.destroy(row);
     if (result.affectedRows) {
       ctx.body = null;
@@ -119,7 +123,7 @@ class ModuleApplyRecordsController extends Controller {
         error: 'NOT IMPLEMENTED',
         // 在egg官方文档里，detail给了个对象数组[{  }]，个人认为不存在数组的必要
         // 因此把他简化成了一个对象 {}
-        detail: { message: '申请撤销失败', field: '', code: '' },
+        detail: { message: '申请记录删除失败', field: '', code: '' },
       };
       ctx.status = 501;
     }

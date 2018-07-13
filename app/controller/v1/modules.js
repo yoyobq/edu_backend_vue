@@ -68,6 +68,26 @@ class ModulesController extends Controller {
       ctx.status = 201;
     }
   }
+
+  async destroy() {
+    const ctx = this.ctx;
+    const params = JSON.parse(ctx.query.params);
+    // console.log(params);
+
+    const result = await ctx.service.v1.modules.destroy(params);
+    if (result.affectedRows) {
+      ctx.body = null;
+      ctx.status = 201;
+    } else {
+      ctx.body = {
+        error: 'NOT IMPLEMENTED',
+        // 在egg官方文档里，detail给了个对象数组[{  }]，个人认为不存在数组的必要
+        // 因此把他简化成了一个对象 {}
+        detail: { message: '课程删除成功', field: '', code: '' },
+      };
+      ctx.status = 501;
+    }
+  }
 }
 
 module.exports = ModulesController;
