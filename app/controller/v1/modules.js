@@ -23,17 +23,22 @@ class ModulesController extends Controller {
     const ctx = this.ctx;
     // console.log(ctx.query);
     let params = ctx.query;
+    let result = [];
     // console.log(params);
-    if (params.status1) {
-      const status = [];
-      status[0] = params.status1;
-      status[1] = params.status2;
-      params = {
-        status,
-      };
+    if (params.spec) {
+      result = await ctx.service.v1.modules.getThisStuWork(params.uId);
+    } else {
+      if (params.status1) {
+        const status = [];
+        status[0] = params.status1;
+        status[1] = params.status2;
+        params = {
+          status,
+        };
       // console.log(params);
+      }
+      result = await ctx.service.v1.modules.index(params);
     }
-    const result = await ctx.service.v1.modules.index(params);
 
     // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined
     if (result[0] !== undefined) {

@@ -39,6 +39,12 @@ class ModulesService extends Service {
     const result = await this.app.mysql.delete(TableName, params);
     return result;
   }
+
+  async getThisStuWork(uId) {
+    // 显示相关uId名下，所有有申请通过（TA 或 Marker）记录的课程
+    const result = await this.app.mysql.query('SELECT * FROM `ta_module` WHERE `id` IN ( SELECT DISTINCT(`modId`) FROM `ta_module_apply_records` WHERE (`status` = "pass"  OR `status` = "assigned") AND `uId` = ' + uId + ') AND STATUS = "public"');
+    return result;
+  }
 }
 
 module.exports = ModulesService;

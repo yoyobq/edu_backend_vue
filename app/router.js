@@ -29,5 +29,6 @@ module.exports = app => {
   // router.get('/api/v1/examRecords/count', controller.v1.examRecords.count);
 
   router.resources('users', '/api/v1/users', controller.v1.users);
+  router.resources('users', '/api/v1/appointLists', controller.v1.appointLists);
   // router.resources('tests', '/api/v1/scoreLists/:id/password', controller.v1.password);
 };

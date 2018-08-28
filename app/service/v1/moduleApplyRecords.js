@@ -19,7 +19,7 @@ class ModuleApplyRecordsService extends Service {
         moduleApplyRecords = await this.app.mysql.select(TableName, { where: params, columns: 'id' });
       } else {
         // console.log(params);
-        moduleApplyRecords = await this.app.mysql.query('SELECT a.`id`, a.`uId`, a.`submitTime`, b.`realName`, b.`school`, b.`department`, b.`highestDegree`, a.`type`, a.`status` FROM `ta_module_apply_records` a LEFT JOIN `pf2_accounts_informations` b ON (a.`uId` = b.`id`) WHERE a.`modId` = ?', [ parseInt(params.modId) ]);
+        moduleApplyRecords = await this.app.mysql.query('SELECT a.`id`, a.`uId`, a.`submitTime`, b.`realName`, b.`school`, b.`email`, b.`cellphone`, b.`department`, b.`highestDegree`, a.`type`, a.`status` FROM `ta_module_apply_records` a LEFT JOIN `pf2_accounts_informations` b ON (a.`uId` = b.`id`) WHERE a.`modId` = ?', [ parseInt(params.modId) ]);
       }
     }
     return moduleApplyRecords;

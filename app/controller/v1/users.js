@@ -17,7 +17,7 @@ class UsersController extends Controller {
   async show() {
     const ctx = this.ctx;
     const userId = ctx.params.id;
-    const user = await ctx.service.users.show(userId);
+    const user = await ctx.service.v1.users.show(userId);
     if (user !== null) {
       ctx.body = user;
       ctx.status = 200;
@@ -29,7 +29,7 @@ class UsersController extends Controller {
   async index() {
     const ctx = this.ctx;
     // console.log(this.ctx.request);
-    const users = await ctx.service.users.index();
+    const users = await ctx.service.v1.users.index();
     if (users !== null) {
       ctx.body = users;
       ctx.status = 200;

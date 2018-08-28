@@ -48,13 +48,12 @@ class ModuleApplyRecordsController extends Controller {
   }
   async update() {
     const ctx = this.ctx;
-
     const row = JSON.parse(ctx.query.params);
-
-    // console.log(row);
     const result = await ctx.service.v1.moduleApplyRecords.update(row);
-
     if (result.affectedRows) {
+      // if (row.type === 'TA') {
+      //   console.log(row.type);
+      // }
       ctx.status = 204;
     }
   }
