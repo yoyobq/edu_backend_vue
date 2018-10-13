@@ -21,6 +21,7 @@ class QuestionsController extends Controller {
   async index() {
     const ctx = this.ctx;
     const params = ctx.query;
+    console.log(params);
     const result = await ctx.service.v1.questions.index(params);
 
     // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined

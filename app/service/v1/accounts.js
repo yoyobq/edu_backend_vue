@@ -9,6 +9,7 @@ class AccountsService extends Service {
     const result = await this.app.mysql.get(TableName, { id });
     return result;
   }
+
   async index(params) {
     // 查询user表中所有记录
     // const params = this.ctx.request.query;
@@ -16,7 +17,7 @@ class AccountsService extends Service {
     let accounts;
     if (params.password !== undefined) {
       // console.log(params);
-      accounts = await this.app.mysql.get(TableName, { acc_Name: params.username, acc_PassWord: params.password });
+      accounts = await this.app.mysql.get(TableName, { acc_Name: params.user, acc_PassWord: params.password });
     } else {
       // accounts = await this.app.mysql.select(TableName);
       if (params !== undefined) {
@@ -29,6 +30,7 @@ class AccountsService extends Service {
         accounts = await this.app.mysql.select(TableName);
       }
     }
+    // console.log(accounts);
     return accounts;
   }
 

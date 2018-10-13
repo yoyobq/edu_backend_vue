@@ -5,8 +5,12 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  // router.get('/', validate);
   router.get('/', controller.home.index);
   router.get('/user/:id', controller.user.info);
+
+  router.resources('authentications', '/api/v2/authentications', controller.v2.authentications);
+  // 以下是 v1 版本的数据接口，用于小马哥的 TA 系统，作为参照保留
   //                            对象名   路由url         绑定控制器
   // app.router.resources('topics', '/api/v2/topics', app.controller.topics);
   // 由于 const {} = app 的存在应该可以等价于
@@ -31,4 +35,10 @@ module.exports = app => {
   router.resources('users', '/api/v1/users', controller.v1.users);
   router.resources('users', '/api/v1/appointLists', controller.v1.appointLists);
   // router.resources('tests', '/api/v1/scoreLists/:id/password', controller.v1.password);
+
+  // 以下这个例子描述了两件事
+  // 中间件可以放在变量里
+  // const validate = app.middleware.validateHandler();
+  // 路由格式 router.verb('router-name', 'path-match', middleware1, ..., middlewareN, app.controller.action);
+  // app.router.resources('/v2', validate, controller.v1.authentications);
 };
