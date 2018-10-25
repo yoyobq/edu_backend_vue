@@ -3,7 +3,7 @@
 'use strict';
 
 const Service = require('egg').Service;
-const TableName = 'pf2_authentications';
+const TableName = 'edu_authentications';
 
 class AuthenticationsService extends Service {
   async show(row) {

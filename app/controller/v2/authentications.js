@@ -46,36 +46,47 @@ class AuthenticationsController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const params = {
-      uuid: UUID.v1(),
-      username: ctx.query.username,
-      password: ctx.query.password,
-    };
+    const params = this.ctx.request.body.data;
+    params.uuid = UUID.v1();
+    params.permission = 1;
+    params.avatarPath = 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg';
+    // {
+    //   uuid: UUID.v1(),
+    //   username: ctx.request.body.username,
+    //   password: ctx.request.body.password,
+    //   realName: ctx.request.body.realName,
+    //   permission: 1,
+    //   avatarPath: 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg',
+    // };
     // 表authentications内添加数据
+    console.log(params);
     const result = await ctx.service.v2.authentications.create(params);
     if (result.affectedRows) {
+      console.log(result);
+      ctx.body = result;
+      ctx.status = 201;
       // console.log(result.insertId);
-      const newAccount = {
-        id: result.insertId,
-        avatarPath: 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg',
-      };
+      // const newAccount = {
+      //   id: result.insertId,
+      //   avatarPath: 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg',
+      // };
       // 注意，换表了 表accounts
-      const result2 = await ctx.service.v2.accounts.create(newAccount);
-      if (result2.affectedRows) {
-        const newInfo = {
-          id: result2.insertId,
-        };
-        const result3 = await ctx.service.v2.informations.create(newInfo);
-        if (result3.affectedRows) {
-          // console.log(result3);
-          ctx.body = result3;
-          ctx.status = 201;
-        } else {
-          ctx.status = 500;
-        }
-      } else {
-        ctx.status = 500;
-      }
+      // const result2 = await ctx.service.v2.accounts.create(newAccount);
+      // if (result2.affectedRows) {
+      //   const newInfo = {
+      //     id: result2.insertId,
+      //   };
+      //   const result3 = await ctx.service.v2.informations.create(newInfo);
+      //   if (result3.affectedRows) {
+      //     // console.log(result3);
+      //     ctx.body = result3;
+      //     ctx.status = 201;
+      //   } else {
+      //     ctx.status = 500;
+      //   }
+      // } else {
+      //   ctx.status = 500;
+      // }
     } else {
       ctx.body = {
         error: 'CREATE FAILURE',

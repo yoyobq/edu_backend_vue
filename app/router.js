@@ -5,11 +5,12 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  // router.get('/', validate);
-  router.get('/', controller.home.index);
-  router.get('/user/:id', controller.user.info);
-
   router.resources('authentications', '/api/v2/authentications', controller.v2.authentications);
+  router.resources('stuFullInfos', '/api/v2/stuFullInfos', controller.v2.stuFullInfos);
+  router.resources('classInfos', '/api/v2/classInfos', controller.v2.classInfos);
+  router.resources('stuInfos', '/api/v2/stuInfos', controller.v2.stuInfos);
+  router.resources('specialities', '/api/v2/specialities', controller.v2.specialities);
+  router.resources('departMents', '/api/v2/departMents', controller.v2.departMents);
   // 以下是 v1 版本的数据接口，用于小马哥的 TA 系统，作为参照保留
   //                            对象名   路由url         绑定控制器
   // app.router.resources('topics', '/api/v2/topics', app.controller.topics);
@@ -41,4 +42,9 @@ module.exports = app => {
   // const validate = app.middleware.validateHandler();
   // 路由格式 router.verb('router-name', 'path-match', middleware1, ..., middlewareN, app.controller.action);
   // app.router.resources('/v2', validate, controller.v1.authentications);
+
+  // 早期的一些测试链接，已无用，相关文件已删除，莫取消注释
+  // router.get('/', validate);
+  // router.get('/', controller.home.index);
+  // router.get('/user/:id', controller.user.info);
 };

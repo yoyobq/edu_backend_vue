@@ -5,7 +5,7 @@
 
 module.exports = () => {
   return async function validateHandler(ctx, next) {
-    console.log('validate Start');
+    // console.log('validate Start');
     const authkey = ctx.request.header.authkey;
     // console.log(authkey);
     // if (authkey !== undefined) {
@@ -17,6 +17,6 @@ module.exports = () => {
       // 远程调用返回格式错误
       ctx.throw(403, '非法的数据访问');
     }
-    console.log('validate End');
+    // console.log('validate End');
   };
 };
