@@ -8,6 +8,7 @@ module.exports = app => {
   router.resources('authentications', '/api/v2/authentications', controller.v2.authentications);
   router.resources('stuFullInfos', '/api/v2/stuFullInfos', controller.v2.stuFullInfos);
   router.resources('classInfos', '/api/v2/classInfos', controller.v2.classInfos);
+  router.resources('permissions', '/api/v2/permissions', controller.v2.permissions);
   router.resources('stuInfos', '/api/v2/stuInfos', controller.v2.stuInfos);
   router.resources('specialities', '/api/v2/specialities', controller.v2.specialities);
   router.resources('departments', '/api/v2/departments', controller.v2.departments);
