@@ -25,7 +25,7 @@ class AuthenticationsService extends Service {
       // 一旦找到匹配记录，仅需返回 uuid 和 id 两个字段
       result = await this.app.mysql.select(TableName, {
         where: params,
-        columns: [ 'uuid', 'id' ],
+        columns: [ 'uuid', 'id', 'lastLoginIp', 'lastLoginTime', 'permission', 'email', 'avatarPath' ],
       });
     } else {
       result = await this.app.mysql.select(TableName);

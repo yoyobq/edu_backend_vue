@@ -4,22 +4,18 @@
 
 const Controller = require('egg').Controller;
 
-class DepartMentsController extends Controller {
+class DepartmentsController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    // const userId = ctx.params.id;
-    // console.log(typeof ctx.query);
-    const row = ctx.query;
-    const user = await ctx.service.v2.departMents.show(row);
-    // if (user !== null) {
-    //   ctx.body = user;
-    //   ctx.status = 200;
-    // } else {
-    //   ctx.status = 404;
-    // }
-    ctx.body = user;
-    ctx.status = 200;
+    const params = ctx.params;
+    const result = await ctx.service.v2.departments.show(params);
+    if (result !== null) {
+      ctx.body = result;
+      ctx.status = 200;
+    } else {
+      ctx.throw('获取信息失败，请检查日志');
+    }
   }
 
   async index() {
@@ -29,7 +25,7 @@ class DepartMentsController extends Controller {
 
     // 没有全文列表的需求，因此只处理带参数的情况
     if (JSON.stringify(params.departmentName) !== undefined) {
-      const result = await ctx.service.v2.departMents.index(params);
+      const result = await ctx.service.v2.departments.index(params);
       // console.log(result);
       // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined
       if (result[0] !== undefined) {
@@ -44,4 +40,4 @@ class DepartMentsController extends Controller {
   }
 }
 
-module.exports = DepartMentsController;
+module.exports = DepartmentsController;

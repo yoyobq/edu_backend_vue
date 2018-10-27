@@ -10,7 +10,7 @@ module.exports = app => {
   router.resources('classInfos', '/api/v2/classInfos', controller.v2.classInfos);
   router.resources('stuInfos', '/api/v2/stuInfos', controller.v2.stuInfos);
   router.resources('specialities', '/api/v2/specialities', controller.v2.specialities);
-  router.resources('departMents', '/api/v2/departMents', controller.v2.departMents);
+  router.resources('departments', '/api/v2/departments', controller.v2.departments);
   // 以下是 v1 版本的数据接口，用于小马哥的 TA 系统，作为参照保留
   //                            对象名   路由url         绑定控制器
   // app.router.resources('topics', '/api/v2/topics', app.controller.topics);

@@ -5,10 +5,9 @@
 const Service = require('egg').Service;
 const TableName = 'edu_department';
 
-class DepartMentsService extends Service {
+class DepartmentsService extends Service {
   async show(row) {
-    // 根据用户 id 从数据库获取用户详细信息
-    console.log(row);
+    // 根据 id 从数据库获取详细信息
     const user = await this.app.mysql.get(TableName, row);
     return user;
   }
@@ -26,4 +25,4 @@ class DepartMentsService extends Service {
   }
 }
 
-module.exports = DepartMentsService;
+module.exports = DepartmentsService;

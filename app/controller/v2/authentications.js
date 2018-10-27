@@ -35,10 +35,12 @@ class AuthenticationsController extends Controller {
       ctx.status = 200;
     } else {
       ctx.body = {
-        error: 'NOT FOUND',
+        // 此处 error 是给用户看的信息
+        error: '用户不存在或密码有误',
         // 在egg官方文档里，detail给了个对象数组[{  }]，个人认为不存在数组的必要
         // 因此把他简化成了一个对象 {}
-        detail: { message: '用户不存在或密码有误', field: '', code: '' },
+        // detail 是给 debug 看的错误
+        detail: { message: 'not found', field: '', code: '' },
       };
       ctx.status = 404;
     }
@@ -59,10 +61,10 @@ class AuthenticationsController extends Controller {
     //   avatarPath: 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg',
     // };
     // 表authentications内添加数据
-    console.log(params);
+    // console.log(params);
     const result = await ctx.service.v2.authentications.create(params);
     if (result.affectedRows) {
-      console.log(result);
+      // console.log(result);
       ctx.body = result;
       ctx.status = 201;
       // console.log(result.insertId);
@@ -97,11 +99,23 @@ class AuthenticationsController extends Controller {
   }
 
   async update() {
+    // 此处update仅处理了用户登录时的情况
+    // 网站开发过不了多久一定会有修改用户密码之类的需求
+    // 会影响到此处代码的执行
+    // 目前想到的解决方法是判断  ctx.params 下是否存在password 等需要修改的字段
+    // 若无，用现代码，若有，添加新代码
     const ctx = this.ctx;
-    const row = JSON.parse(ctx.query.params);
-    // console.log(row.password);
+    let timeStr = (new Date()).toLocaleString();
+    // 获取当前日期
+    timeStr = timeStr.replace(/\//g, '-');
+    // 替换2017/05/03 为    2017-05-03
+    const row = {
+      id: ctx.params.id,
+      lastLoginTime: timeStr,
+      lastLoginIP: ctx.request.header['x-forwarded-for'],
+    };
     const result = await ctx.service.v2.authentications.update(row);
-
+    // console.log(result);
     if (result.affectedRows) {
       ctx.status = 204;
     }

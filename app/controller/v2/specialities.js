@@ -5,23 +5,17 @@
 const Controller = require('egg').Controller;
 
 class SpecialitiesController extends Controller {
-
   async show() {
     const ctx = this.ctx;
-    // const userId = ctx.params.id;
-    // console.log(typeof ctx.query);
-    const row = ctx.query;
-    const user = await ctx.service.v2.specialities.show(row);
-    // if (user !== null) {
-    //   ctx.body = user;
-    //   ctx.status = 200;
-    // } else {
-    //   ctx.status = 404;
-    // }
-    ctx.body = user;
-    ctx.status = 200;
+    const params = ctx.params;
+    const result = await ctx.service.v2.specialities.show(params);
+    if (result !== null) {
+      ctx.body = result;
+      ctx.status = 200;
+    } else {
+      ctx.throw('获取信息失败，请检查日志');
+    }
   }
-
   async index() {
     const ctx = this.ctx;
     // console.log(ctx.query);
