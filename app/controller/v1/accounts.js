@@ -28,7 +28,7 @@ class AccountsController extends Controller {
     const params = ctx.query;
     // console.log(params);
     const result = await ctx.service.v1.accounts.index(params);
-    console.log(result[0]);
+    // console.log(result[0]);
     // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined
     if (result[0] !== undefined) {
       ctx.body = result;

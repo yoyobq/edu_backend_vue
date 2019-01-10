@@ -9,10 +9,13 @@ module.exports = app => {
   router.resources('stuFullInfos', '/api/v2/stuFullInfos', controller.v2.stuFullInfos);
   router.resources('classInfos', '/api/v2/classInfos', controller.v2.classInfos);
   router.resources('permissions', '/api/v2/permissions', controller.v2.permissions);
+  router.resources('questionsLibraries', '/api/v2/questionsLibraries', controller.v2.questionsLibraries);
+  router.resources('exerciseRecords', '/api/v2/exerciseRecords', controller.v2.exerciseRecords);
+  router.resources('questions', '/api/v2/questions', controller.v2.questions);
   router.resources('stuInfos', '/api/v2/stuInfos', controller.v2.stuInfos);
   router.resources('specialities', '/api/v2/specialities', controller.v2.specialities);
   router.resources('departments', '/api/v2/departments', controller.v2.departments);
-  // 以下是 v1 版本的数据接口，用于小马哥的 TA 系统，作为参照保留
+  // 以下是 v1 版本的数据接口，用于小马哥的 TA 系统，作为参考保留
   //                            对象名   路由url         绑定控制器
   // app.router.resources('topics', '/api/v2/topics', app.controller.topics);
   // 由于 const {} = app 的存在应该可以等价于

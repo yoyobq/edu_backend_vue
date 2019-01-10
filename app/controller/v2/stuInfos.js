@@ -35,7 +35,7 @@ class StuInfosController extends Controller {
     // 没有全文列表的需求，因此只处理带参数的情况
     if (JSON.stringify(params.idNumber) !== undefined) {
       const result = await ctx.service.v2.stuInfos.index(params);
-      console.log(result);
+      // console.log(result);
       // 注意这条判断，比较容易写错 [] 不是 null，也不是 undefined
       if (result[0] !== undefined) {
         ctx.body = result;
@@ -53,10 +53,10 @@ class StuInfosController extends Controller {
     const ctx = this.ctx;
     const params = this.ctx.request.body.data;
     // 表 stuInfos 内添加数据
-    console.log(params);
+    // console.log(params);
     const result = await ctx.service.v2.stuInfos.create(params);
     if (result.affectedRows) {
-      console.log(result);
+      // console.log(result);
       ctx.body = result;
       ctx.status = 201;
       // console.log(result.insertId);

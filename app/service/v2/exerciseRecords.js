@@ -1,23 +1,19 @@
-// app/service/v2/stuFullInfos.js
+// app/service/v2/questionsInfos.js
 
 'use strict';
 
 const Service = require('egg').Service;
-const TableName = 'edu_stu_full_info';
+const TableName = 'edu_exercise_record';
 
-class StuFullInfosService extends Service {
+class ExerciseRecordsService extends Service {
   async show(row) {
-    // 根据用户 id 从数据库获取用户详细信息
     const user = await this.app.mysql.get(TableName, row);
     return user;
   }
 
   // get 带参数（?xx=00）
   async index(params) {
-    const result = await this.app.mysql.select(TableName, {
-      where: params,
-      columns: [ '证件号码', '学号', '姓名', '性别', '所在年级', '所在学部', '所在专业', '所在班级', '是否在籍', '是否在校', '是否住宿', '是否下厂实习', '入学层次' ],
-    });
+    const result = await this.app.mysql.query('SELECT a.`id` as `libId`,b.`id`,a.`libName`,a.`questNum`,b.`round`,b.`lastQuest`,b.`correctRate`,b.`answerRecord` FROM  `edu_questions_library` a LEFT JOIN  `edu_exercise_record` b ON a.`id` = b.`libId` AND b.`stuId` = ?', params.stuId);
     // 此处获取的数据会有几种可能性
     // 1 null 这种情况让controller去处理
     // 2 [{} {} {}],这是最符合期待的结果，index函数展示大量数据
@@ -35,11 +31,6 @@ class StuFullInfosService extends Service {
     const result = await this.app.mysql.update(TableName, row);
     return result;
   }
-
-  async destroy(params) {
-    const result = await this.app.mysql.delete(TableName, params);
-    return result;
-  }
 }
 
-module.exports = StuFullInfosService;
+module.exports = ExerciseRecordsService;
