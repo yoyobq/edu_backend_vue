@@ -11,6 +11,7 @@ class StuInfosController extends Controller {
     let row;
     // const userId = ctx.params.id;
     // console.log(typeof ctx.query);
+    // console.log(ctx.params); // 获取 url 中的 id
     if (ctx.params.id !== undefined) {
       row = ctx.params;
     } else {

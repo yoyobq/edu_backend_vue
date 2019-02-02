@@ -50,7 +50,7 @@ class AuthenticationsController extends Controller {
     const ctx = this.ctx;
     const params = this.ctx.request.body.data;
     params.uuid = UUID.v1();
-    params.permission = '[1]';
+    params.permission = '[0]';
     params.avatarPath = 'avatar' + Math.floor(Math.random() * 6 + 1) + '.jpg';
     // {
     //   uuid: UUID.v1(),
@@ -105,15 +105,20 @@ class AuthenticationsController extends Controller {
     // 目前想到的解决方法是判断  ctx.params 下是否存在password 等需要修改的字段
     // 若无，用现代码，若有，添加新代码
     const ctx = this.ctx;
-    let timeStr = (new Date()).toLocaleString();
-    // 获取当前日期
-    timeStr = timeStr.replace(/\//g, '-');
-    // 替换2017/05/03 为    2017-05-03
-    const row = {
-      id: ctx.params.id,
-      lastLoginTime: timeStr,
-      lastLoginIP: ctx.request.header['x-forwarded-for'],
-    };
+    let row = this.ctx.request.body.data;
+
+    if (row === undefined) {
+      let timeStr = (new Date()).toLocaleString();
+      // 获取当前日期
+      timeStr = timeStr.replace(/\//g, '-');
+      // 替换2017/05/03 为    2017-05-03
+      row = {
+        id: ctx.params.id,
+        lastLoginTime: timeStr,
+        lastLoginIP: ctx.request.header['x-forwarded-for'],
+      };
+    }
+
     const result = await ctx.service.v2.authentications.update(row);
     // console.log(result);
     if (result.affectedRows) {

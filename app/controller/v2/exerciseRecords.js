@@ -52,7 +52,6 @@ class ExerciseRecordsController extends Controller {
   async update() {
     const ctx = this.ctx;
     const row = this.ctx.request.body.data;
-    // console.log(ctx.query);
     const result = await ctx.service.v2.exerciseRecords.update(row);
     if (result.affectedRows) {
       ctx.status = 204;
