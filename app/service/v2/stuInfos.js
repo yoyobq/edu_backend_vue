@@ -30,6 +30,11 @@ class StuInfosService extends Service {
     const result = await this.app.mysql.insert(TableName, params);
     return result;
   }
+
+  async update(row) {
+    const result = await this.app.mysql.update(TableName, row);
+    return result;
+  }
 }
 
 module.exports = StuInfosService;

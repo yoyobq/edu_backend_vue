@@ -89,6 +89,15 @@ class StuInfosController extends Controller {
       ctx.status = 500;
     }
   }
+  async update() {
+    const ctx = this.ctx;
+    const row = this.ctx.request.body.data;
+    // console.log(ctx.query);
+    const result = await ctx.service.v2.stuInfos.update(row);
+    if (result.affectedRows) {
+      ctx.status = 204;
+    }
+  }
 }
 
 module.exports = StuInfosController;
